@@ -66,6 +66,24 @@ namespace TallerMecanicoWeb.Services
 
             return true;
         }
+
+
+        public List<Cliente> BuscarClientes(string texto)   // Método para buscar clientes por nombre, apellido o DNI
+        {
+            if (string.IsNullOrWhiteSpace(texto))  
+            {
+                return _mockData.Clientes;
+            }
+
+            texto = texto.Trim();                   
+
+            return _mockData.Clientes
+                .Where(c =>
+                    c.Nombre.Contains(texto, StringComparison.OrdinalIgnoreCase) ||
+                    c.Apellido.Contains(texto, StringComparison.OrdinalIgnoreCase) ||
+                    c.Dni.Contains(texto))
+                .ToList();
+        }
     }
 }
 
