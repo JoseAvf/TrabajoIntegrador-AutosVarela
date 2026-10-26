@@ -1,8 +1,66 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿
+@{
+    ViewData["Title"] = "Panel principal";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="dashboard">
+    <section class="welcome-section">
+        <div>
+            <span class="section-eyebrow">GESTIÓN DEL TALLER</span>
+            <h1>Bienvenido a AutosVarela</h1>
+            <p>Administrá clientes, vehículos, personal y reparaciones desde un solo lugar.</p>
+        </div>
+        <div class="welcome-symbol" aria-hidden="true">AV</div>
+    </section>
+
+    <section class="dashboard-section">
+        <div class="section-heading">
+            <div>
+                <h2>Panel de gestión</h2>
+                <p>Seleccioná un área para comenzar.</p>
+            </div>
+        </div>
+
+        <div class="dashboard-grid">
+            <article class="dashboard-card">
+                <div class="card-icon clients-icon" aria-hidden="true">CL</div>
+                <h3>Clientes</h3>
+                <p>Consultá y administrá la información de los clientes del taller.</p>
+                <span class="card-status">Módulo en preparación</span>
+            </article>
+
+            <article class="dashboard-card">
+                <div class="card-icon vehicles-icon" aria-hidden="true">VH</div>
+                <h3>Vehículos</h3>
+                <p>Organizá los vehículos asociados a cada cliente.</p>
+                <span class="card-status">Módulo en preparación</span>
+            </article>
+
+            <article class="dashboard-card">
+                <div class="card-icon repairs-icon" aria-hidden="true">RP</div>
+                <h3>Reparaciones</h3>
+                <p>Prepará el seguimiento de trabajos pendientes y realizados.</p>
+                <span class="card-status">Módulo en preparación</span>
+            </article>
+
+            <article class="dashboard-card">
+                <div class="card-icon staff-icon" aria-hidden="true">PE</div>
+                <h3>Personal</h3>
+                <p>Organizá la información del personal del taller mecánico.</p>
+                <span class="card-status">Módulo en preparación</span>
+            </article>
+        </div>
+    </section>
+
+    <section class="info-panel">
+        <div class="info-indicator" aria-hidden="true"></div>
+        <div>
+            <h2>Un taller mejor organizado</h2>
+            <p>
+                Este panel será el punto de entrada a las funcionalidades de AutosVarela.
+                Los módulos se conectarán con los modelos y servicios del proyecto
+                a medida que se integren.
+            </p>
+        </div>
+    </section>
 </div>

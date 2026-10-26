@@ -11,6 +11,10 @@ namespace TallerMecanicoWeb.Interfaces
         bool ExisteDni(string dni);
 
         bool AgregarCliente(Cliente cliente);
+
+
+        List<Cliente> BuscarClientes(string texto);
+
     }
 }
 
