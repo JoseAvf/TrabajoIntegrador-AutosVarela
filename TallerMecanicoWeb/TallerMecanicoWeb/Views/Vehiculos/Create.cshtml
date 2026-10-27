@@ -1,0 +1,87 @@
+﻿@model TallerMecanicoWeb.Models.Vehiculo
+
+@{
+    ViewData["Title"] = "Registrar Vehículo";
+}
+
+<h2>Registrar Vehículo</h2>
+
+<form asp-controller="Vehiculos" asp-action="Create" method="post">
+
+    @Html.AntiForgeryToken()
+
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="mb-3">
+        <label asp-for="Patente" class="form-label"></label>
+        <input asp-for="Patente" class="form-control" />
+        <span asp-validation-for="Patente" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Marca" class="form-label"></label>
+        <input asp-for="Marca" class="form-control" />
+        <span asp-validation-for="Marca" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Modelo" class="form-label"></label>
+        <input asp-for="Modelo" class="form-control" />
+        <span asp-validation-for="Modelo" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Anio" class="form-label"></label>
+        <input asp-for="Anio" type="number" class="form-control" />
+        <span asp-validation-for="Anio" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Color" class="form-label"></label>
+        <input asp-for="Color" class="form-control" />
+        <span asp-validation-for="Color" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Kilometraje" class="form-label"></label>
+        <input asp-for="Kilometraje" type="number" class="form-control" />
+        <span asp-validation-for="Kilometraje" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label for="idCliente" class="form-label">Propietario</label>
+
+        <select name="idCliente"
+                id="idCliente"
+                asp-items="ViewBag.Clientes"
+                class="form-select"
+                required
+                data-val="true"
+                data-val-required="Debe seleccionar un propietario.">
+            <option value="">Seleccione un propietario</option>
+        </select>
+
+        @Html.ValidationMessage(
+            "idCliente",
+            "",
+            new { @class = "text-danger" }
+        )
+    </div>
+
+
+    <button type="submit" class="btn btn-primary">
+        Guardar Vehículo
+    </button>
+
+    <a asp-controller="Vehiculos"
+       asp-action="Index"
+       class="btn btn-secondary">
+        Cancelar
+    </a>
+
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
