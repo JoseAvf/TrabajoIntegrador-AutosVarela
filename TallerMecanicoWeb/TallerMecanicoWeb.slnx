@@ -1,3 +1,4 @@
 <Solution>
+  <Project Path="../TallerMecanicoWeb.Tests/TallerMecanicoWeb.Tests.csproj" Id="b2e39907-4ab2-4bca-bc64-b9e4a0cd033e" />
   <Project Path="TallerMecanicoWeb/TallerMecanicoWeb.csproj" />
 </Solution>
