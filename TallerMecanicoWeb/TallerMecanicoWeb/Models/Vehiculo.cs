@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using TallerMecanicoWeb.Validations;
 
 namespace TallerMecanicoWeb.Models
 {
@@ -20,15 +21,20 @@ namespace TallerMecanicoWeb.Models
         [StringLength(50, ErrorMessage = "El modelo no puede superar los 50 caracteres")]
         public string Modelo { get; set; } = string.Empty;
 
-        [Range(1900, 2100, ErrorMessage = "El año debe estar entre 1900 y 2100")]
-        public int Anio { get; set; }
+        [Display(Name = "Año")]
+        [Required(ErrorMessage = "El año es obligatorio")]
+        [AnioVehiculoValido]
+        public int? Anio { get; set; }
 
         [Required(ErrorMessage = "El color es obligatorio")]
         [StringLength(30, ErrorMessage = "El color no puede superar los 30 caracteres")]
         public string Color { get; set; } = string.Empty;
 
+
+        [Required(ErrorMessage = "El kilometraje es obligatorio")]
         [Range(0, int.MaxValue, ErrorMessage = "El kilometraje no puede ser negativo")]
-        public int Kilometraje { get; set; }
+        public int? Kilometraje { get; set; }
+
 
 
         // Relación con Cliente

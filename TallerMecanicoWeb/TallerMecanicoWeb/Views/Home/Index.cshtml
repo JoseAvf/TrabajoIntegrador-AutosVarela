@@ -26,15 +26,27 @@
                 <div class="card-icon clients-icon" aria-hidden="true">CL</div>
                 <h3>Clientes</h3>
                 <p>Consultá y administrá la información de los clientes del taller.</p>
-                <span class="card-status">Módulo en preparación</span>
+
+                <a asp-controller="Clientes"
+                   asp-action="Index"
+                   class="btn btn-primary">
+                    Gestionar Clientes
+                </a>
             </article>
 
+            
             <article class="dashboard-card">
                 <div class="card-icon vehicles-icon" aria-hidden="true">VH</div>
                 <h3>Vehículos</h3>
                 <p>Organizá los vehículos asociados a cada cliente.</p>
-                <span class="card-status">Módulo en preparación</span>
+
+                <a asp-controller="Vehiculos"
+                   asp-action="Index"
+                   class="btn btn-primary">
+                    Gestionar Vehículos
+                </a>
             </article>
+
 
             <article class="dashboard-card">
                 <div class="card-icon repairs-icon" aria-hidden="true">RP</div>
