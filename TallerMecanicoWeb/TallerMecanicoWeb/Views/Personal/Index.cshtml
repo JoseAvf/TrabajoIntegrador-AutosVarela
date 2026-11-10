@@ -8,15 +8,20 @@
     <div class="row justify-content-center">
         <div class="col-12 col-lg-10">
 
-<h2>Gestión de mecánicos</h2>
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+        <h2>Gestión de Personal</h2>
+        <p class="mb-0">
+            Listado de mecánicos registrados en Autos Varela.
+        </p>
+    </div>
 
-<p>
     <a asp-controller="Personal"
        asp-action="Create"
        class="btn btn-primary">
-        Registrar mecánico
+        Registrar Mecánico
     </a>
-</p>
+</div>
 
 @if (TempData["Mensaje"] != null)
 {
