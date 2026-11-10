@@ -8,6 +8,8 @@ namespace TallerMecanicoWeb.Interfaces
 
         Vehiculo? ObtenerPorId(int id);
 
+        List<Vehiculo> BuscarVehiculos(string patente);
+
         bool ExistePatente(string patente);
 
         bool AgregarVehiculo(Vehiculo vehiculo, int idCliente);
