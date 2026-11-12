@@ -29,6 +29,21 @@ namespace TallerMecanicoWeb.Services
                 .FirstOrDefault(v => v.IdVehiculo == id);
         }
 
+
+        public List<Vehiculo> BuscarVehiculos(string patente)
+        {
+            if (string.IsNullOrWhiteSpace(patente))
+            {
+                return ObtenerTodos();
+            }
+
+            return _mockData.Vehiculos
+                .Where(v => v.Patente.Contains(
+                    patente.Trim(),
+                    StringComparison.OrdinalIgnoreCase))
+                .ToList();
+        }
+
         public bool ExistePatente(string patente)
         {
             return _mockData.Vehiculos.Any(

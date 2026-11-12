@@ -18,12 +18,16 @@ namespace TallerMecanicoWeb.Controllers
             _clienteService = clienteService;
         }
 
-        public IActionResult Index()
+
+        public IActionResult Index(string? buscar)
         {
-            var vehiculos = _vehiculoService.ObtenerTodos();
+            var vehiculos = _vehiculoService.BuscarVehiculos(buscar ?? "");
+
+            ViewBag.Buscar = buscar;
 
             return View(vehiculos);
         }
+
 
         [HttpGet]                                                           //Cuando el usuario haga click en Nuevo Vehículo, se ejecutará este método para mostrar el formulario de creación.
         public IActionResult Create()

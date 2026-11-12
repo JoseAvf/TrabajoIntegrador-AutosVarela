@@ -1,0 +1,66 @@
+﻿@model List<TallerMecanicoWeb.Models.Personal>
+
+@{
+    ViewData["Title"] = "Gestión de mecánicos";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-10">
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+        <h2>Gestión de Personal</h2>
+        <p class="mb-0">
+            Listado de mecánicos registrados en Autos Varela.
+        </p>
+    </div>
+
+    <a asp-controller="Personal"
+       asp-action="Create"
+       class="btn btn-primary">
+        Registrar Mecánico
+    </a>
+</div>
+
+@if (TempData["Mensaje"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Mensaje"]
+    </div>
+}
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>DNI</th>
+            <th>Especialidad</th>
+            <th>Teléfono</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var mecanico in Model)
+        {
+            <tr>
+                <td>@mecanico.Nombre</td>
+                <td>@mecanico.Apellido</td>
+                <td>@mecanico.Dni</td>
+                <td>@mecanico.Especialidad</td>
+                <td>@mecanico.Telefono</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@if (!Model.Any())
+{
+    <div class="alert alert-info">
+        No hay mecánicos registrados.
+    </div>
+}
+
+        </div>
+    </div>
+</div>

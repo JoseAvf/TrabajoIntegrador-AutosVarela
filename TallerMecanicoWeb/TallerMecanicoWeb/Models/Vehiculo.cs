@@ -15,10 +15,14 @@ namespace TallerMecanicoWeb.Models
 
         [Required(ErrorMessage = "La marca es obligatoria")]
         [StringLength(50, ErrorMessage = "La marca no puede superar los 50 caracteres")]
+        [RegularExpression(@"^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ]+(?:[ '-][a-zA-ZáéíóúÁÉÍÓÚñÑüÜ]+)*$",
+            ErrorMessage = "La marca solo puede contener letras")]
         public string Marca { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "El modelo es obligatorio")]
         [StringLength(50, ErrorMessage = "El modelo no puede superar los 50 caracteres")]
+        [RegularExpression(@"^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ]+(?:[ '-][a-zA-ZáéíóúÁÉÍÓÚñÑüÜ]+)*$",
+            ErrorMessage = "El modelo solo puede contener letras")]
         public string Modelo { get; set; } = string.Empty;
 
         [Display(Name = "Año")]
@@ -28,6 +32,8 @@ namespace TallerMecanicoWeb.Models
 
         [Required(ErrorMessage = "El color es obligatorio")]
         [StringLength(30, ErrorMessage = "El color no puede superar los 30 caracteres")]
+        [RegularExpression(@"^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ]+(?:[ '-][a-zA-ZáéíóúÁÉÍÓÚñÑüÜ]+)*$",
+            ErrorMessage = "El color solo puede contener letras")]
         public string Color { get; set; } = string.Empty;
 
 

@@ -10,10 +10,14 @@ namespace TallerMecanicoWeb.Models
 
         [Required(ErrorMessage = "El nombre es obligatorio")]
         [StringLength(50, ErrorMessage = "El nombre no puede superar los 50 caracteres")]
+        [RegularExpression(@"^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ]+(?:[ '-][a-zA-ZáéíóúÁÉÍÓÚñÑüÜ]+)*$",
+            ErrorMessage = "El nombre solo puede contener letras")]
         public string Nombre { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "El apellido es obligatorio")]
         [StringLength(50, ErrorMessage = "El apellido no puede superar los 50 caracteres")]
+        [RegularExpression(@"^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ]+(?:[ '-][a-zA-ZáéíóúÁÉÍÓÚñÑüÜ]+)*$",
+            ErrorMessage = "El apellido solo puede contener letras")]
         public string Apellido { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "El DNI es obligatorio")]
