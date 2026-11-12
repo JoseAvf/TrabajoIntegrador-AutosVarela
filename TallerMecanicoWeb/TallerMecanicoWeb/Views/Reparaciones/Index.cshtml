@@ -1,0 +1,132 @@
+@model List<TallerMecanicoWeb.Models.Reparacion>
+@using TallerMecanicoWeb.Models
+
+@{
+    ViewData["Title"] = "Gestión de Reparaciones";
+    EstadoReparacion? estadoActual = ViewBag.EstadoSeleccionado;
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+            <h2 class="mb-1">Órdenes de Reparación</h2>
+            <p class="text-muted mb-0">Consultá, registrá y actualizá el estado de los trabajos del taller.</p>
+        </div>
+        <div class="d-flex gap-2">
+            <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary">Volver al Panel</a>
+            <a asp-action="Create" class="btn btn-primary">+ Nueva Reparación</a>
+        </div>
+    </div>
+
+    <form method="get" asp-action="Index" class="row g-2 align-items-center mb-4">
+        <div class="col-auto">
+            <label class="col-form-label fw-semibold">Filtrar por estado:</label>
+        </div>
+        <div class="col-auto">
+            <select name="estado" class="form-select" onchange="this.form.submit()">
+                <option value="">Todos los estados</option>
+                @foreach (var est in Enum.GetValues<EstadoReparacion>())
+                {
+                    <option value="@est" selected="@(estadoActual == est)">@est</option>
+                }
+            </select>
+        </div>
+        @if (estadoActual.HasValue)
+        {
+            <div class="col-auto">
+                <a asp-action="Index" class="btn btn-outline-secondary">Limpiar filtro</a>
+            </div>
+        }
+    </form>
+
+    @if (Model == null || !Model.Any())
+    {
+        <div class="alert alert-info">
+            No se encontraron órdenes de reparación registradas con el criterio seleccionado.
+        </div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-striped table-hover align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th>#</th>
+                        <th>Vehículo</th>
+                        <th>Cliente</th>
+                        <th>Mecánico Asignado</th>
+                        <th>Ingreso</th>
+                        <th>Descripción / Diagnóstico</th>
+                        <th>Costo</th>
+                        <th>Estado</th>
+                        <th>Cambiar Estado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        string badgeClass = item.Estado switch
+                        {
+                            EstadoReparacion.Pendiente => "bg-warning text-dark",
+                            EstadoReparacion.EnReparacion => "bg-primary",
+                            EstadoReparacion.Finalizada => "bg-success",
+                            EstadoReparacion.Cancelada => "bg-danger",
+                            _ => "bg-secondary"
+                        };
+
+                        <tr>
+                            <td>@item.IdReparacion</td>
+                            <td>
+                                <strong>@(item.Vehiculo?.Patente ?? "S/D")</strong><br />
+                                <small class="text-muted">@item.Vehiculo?.Marca @item.Vehiculo?.Modelo</small>
+                            </td>
+                            <td>
+                                @(item.Vehiculo?.Cliente != null
+                                    ? $"{item.Vehiculo.Cliente.Nombre} {item.Vehiculo.Cliente.Apellido}"
+                                    : "Sin asignar")
+                            </td>
+                            <td>
+                                @(item.Personal != null
+                                    ? $"{item.Personal.Nombre} {item.Personal.Apellido}"
+                                    : "Sin asignar")
+                                <br />
+                                <small class="text-muted">@item.Personal?.Especialidad</small>
+                            </td>
+                            <td>
+                                @item.FechaIngreso.ToString("dd/MM/yyyy")
+                                @if (item.FechaFinalizacion.HasValue)
+                                {
+                                    <br />
+                                    <small class="text-success">Fin: @item.FechaFinalizacion.Value.ToString("dd/MM/yyyy")</small>
+                                }
+                            </td>
+                            <td>
+                                <div><strong>@item.Descripcion</strong></div>
+                                @if (!string.IsNullOrWhiteSpace(item.Diagnostico))
+                                {
+                                    <small class="text-muted">Diag: @item.Diagnostico</small>
+                                }
+                            </td>
+                            <td>$@item.Costo.ToString("N2")</td>
+                            <td>
+                                <span class="badge @badgeClass">@item.Estado</span>
+                            </td>
+                            <td>
+                                <form asp-action="CambiarEstado" method="post" class="d-flex gap-1">
+                                    <input type="hidden" name="idReparacion" value="@item.IdReparacion" />
+                                    <select name="nuevoEstado" class="form-select form-select-sm" style="width: 145px;">
+                                        @foreach (var est in Enum.GetValues<EstadoReparacion>())
+                                        {
+                                            <option value="@est" selected="@(item.Estado == est)">@est</option>
+                                        }
+                                    </select>
+                                    <button type="submit" class="btn btn-sm btn-outline-primary">Guardar</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

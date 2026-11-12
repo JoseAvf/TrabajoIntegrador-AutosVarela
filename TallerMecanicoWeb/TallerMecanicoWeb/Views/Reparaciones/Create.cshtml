@@ -1,0 +1,88 @@
+@model TallerMecanicoWeb.Models.Reparacion
+@using TallerMecanicoWeb.Models
+
+@{
+    ViewData["Title"] = "Registrar Reparación";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Registrar Nueva Orden de Reparación</h4>
+                </div>
+                <div class="card-body">
+                    <form asp-action="Create" method="post">
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Vehículo</label>
+                                <select name="idVehiculo" asp-items="ViewBag.Vehiculos" class="form-select">
+                                    <option value="">-- Seleccione un vehículo --</option>
+                                </select>
+                                <span class="text-danger">@Html.ValidationMessage("idVehiculo")</span>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label class="form-label fw-semibold">Mecánico Asignado</label>
+                                <select name="idPersonal" asp-items="ViewBag.Personal" class="form-select">
+                                    <option value="">-- Seleccione un mecánico --</option>
+                                </select>
+                                <span class="text-danger">@Html.ValidationMessage("idPersonal")</span>
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <label asp-for="FechaIngreso" class="form-label fw-semibold">Fecha de Ingreso</label>
+                                <input asp-for="FechaIngreso" type="date" class="form-control" />
+                                <span asp-validation-for="FechaIngreso" class="text-danger"></span>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label asp-for="Estado" class="form-label fw-semibold">Estado Inicial</label>
+                                <select asp-for="Estado" asp-items="Html.GetEnumSelectList<EstadoReparacion>()" class="form-select"></select>
+                                <span asp-validation-for="Estado" class="text-danger"></span>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label asp-for="Costo" class="form-label fw-semibold">Costo Estimado ($)</label>
+                                <input asp-for="Costo" type="number" step="0.01" min="0" class="form-control" />
+                                <span asp-validation-for="Costo" class="text-danger"></span>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Descripcion" class="form-label fw-semibold">Descripción del Trabajo</label>
+                            <input asp-for="Descripcion" class="form-control" placeholder="Ej: Cambio de correa de distribución y bomba de agua" />
+                            <span asp-validation-for="Descripcion" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Diagnostico" class="form-label fw-semibold">Diagnóstico Técnico (Opcional)</label>
+                            <textarea asp-for="Diagnostico" class="form-control" rows="2" placeholder="Detalle el diagnóstico inicial del mecánico..."></textarea>
+                            <span asp-validation-for="Diagnostico" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="Observaciones" class="form-label fw-semibold">Observaciones Adicionales (Opcional)</label>
+                            <textarea asp-for="Observaciones" class="form-control" rows="2" placeholder="Notas u observaciones para el cliente o el taller..."></textarea>
+                            <span asp-validation-for="Observaciones" class="text-danger"></span>
+                        </div>
+
+                        <div class="d-flex justify-content-end gap-2 mt-4">
+                            <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+                            <button type="submit" class="btn btn-primary">Guardar Orden</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
