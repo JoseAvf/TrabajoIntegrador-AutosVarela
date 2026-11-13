@@ -21,8 +21,9 @@ namespace TallerMecanicoWeb.Models
 
         [Required(ErrorMessage = "El modelo es obligatorio")]
         [StringLength(50, ErrorMessage = "El modelo no puede superar los 50 caracteres")]
-        [RegularExpression(@"^[a-zA-ZáéíóúÁÉÍÓÚñÑüÜ]+(?:[ '-][a-zA-ZáéíóúÁÉÍÓÚñÑüÜ]+)*$",
-            ErrorMessage = "El modelo solo puede contener letras")]
+        [RegularExpression(
+            @"^[a-zA-Z0-9áéíóúÁÉÍÓÚñÑüÜ]+(?:[ '-][a-zA-Z0-9áéíóúÁÉÍÓÚñÑüÜ]+)*$",
+            ErrorMessage = "El modelo solo puede contener letras, números y separadores")]
         public string Modelo { get; set; } = string.Empty;
 
         [Display(Name = "Año")]
