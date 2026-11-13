@@ -112,6 +112,24 @@ namespace TallerMecanicoWeb.Controllers
                 Text = $"{c.Nombre} {c.Apellido} - DNI: {c.Dni}"
             }).ToList();
         }
+
+        // PB13 - Consultar historial de reparaciones de un vehículo
+        [HttpGet]
+        public IActionResult Historial(int id)
+        {
+            // Buscar el vehículo seleccionado
+            Vehiculo? vehiculo = _vehiculoService.ObtenerPorId(id);
+
+            // Si no existe, devolver error 404
+            if (vehiculo == null)
+            {
+                return NotFound();
+            }
+
+            // Enviar el vehículo a la vista
+            return View(vehiculo);
+        }
+
     }
 }
 

@@ -74,6 +74,7 @@ else
                     <th>Color</th>
                     <th>Kilometraje</th>
                     <th>Propietario</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -96,6 +97,14 @@ else
                                 <span>Sin propietario</span>
                             }
                         </td>
+                                    <td>
+                                        <a asp-controller="Vehiculos"
+                                           asp-action="Historial"
+                                           asp-route-id="@vehiculo.IdVehiculo"
+                                           class="btn btn-info btn-sm">
+                                            Ver historial
+                                        </a>
+                                    </td>
                     </tr>
                 }
             </tbody>
