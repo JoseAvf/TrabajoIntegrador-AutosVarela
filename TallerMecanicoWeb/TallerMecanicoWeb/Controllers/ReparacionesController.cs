@@ -21,16 +21,20 @@ namespace TallerMecanicoWeb.Controllers
             _personalService = personalService;
         }
 
+        // --- CAMBIO 1 (PB11): Calcula contadores por estado antes de filtrar ---
         public IActionResult Index(EstadoReparacion? estado)
         {
-            var reparaciones = _reparacionService.ObtenerTodas();
+            var todas = _reparacionService.ObtenerTodas();
 
-            if (estado.HasValue)
-            {
-                reparaciones = reparaciones
-                    .Where(r => r.Estado == estado.Value)
-                    .ToList();
-            }
+            ViewBag.Total = todas.Count;
+            ViewBag.Pendientes = todas.Count(r => r.Estado == EstadoReparacion.Pendiente);
+            ViewBag.EnReparacion = todas.Count(r => r.Estado == EstadoReparacion.EnReparacion);
+            ViewBag.Finalizadas = todas.Count(r => r.Estado == EstadoReparacion.Finalizada);
+            ViewBag.Canceladas = todas.Count(r => r.Estado == EstadoReparacion.Cancelada);
+
+            var reparaciones = estado.HasValue
+                ? todas.Where(r => r.Estado == estado.Value).ToList()
+                : todas;
 
             ViewBag.EstadoSeleccionado = estado;
             return View(reparaciones);
@@ -94,6 +98,7 @@ namespace TallerMecanicoWeb.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        // --- CAMBIO 2 (PB11): Actualiza FechaFinalizacion y envía alerta visual ---
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult CambiarEstado(int idReparacion, EstadoReparacion nuevoEstado)
@@ -106,6 +111,12 @@ namespace TallerMecanicoWeb.Controllers
                 {
                     reparacion.FechaFinalizacion = DateTime.Today;
                 }
+                else if (nuevoEstado != EstadoReparacion.Finalizada)
+                {
+                    reparacion.FechaFinalizacion = null;
+                }
+
+                TempData["MensajeExito"] = $"El estado de la orden #{idReparacion} ({reparacion.Vehiculo?.Patente}) se actualizó a {nuevoEstado}.";
             }
 
             return RedirectToAction(nameof(Index));
