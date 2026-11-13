@@ -18,7 +18,7 @@ namespace TallerMecanicoWeb.Models
         public string Descripcion { get; set; } = string.Empty;
 
         [StringLength(300, ErrorMessage = "El diagnóstico no puede superar los 300 caracteres")]
-        public string Diagnostico { get; set; } = string.Empty;
+        public string? Diagnostico { get; set; }
 
         [Range(typeof(decimal), "0", "999999999",
             ErrorMessage = "El costo no puede ser negativo")]
@@ -27,7 +27,7 @@ namespace TallerMecanicoWeb.Models
         public EstadoReparacion Estado { get; set; }
 
         [StringLength(500, ErrorMessage = "Las observaciones no pueden superar los 500 caracteres")]
-        public string Observaciones { get; set; } = string.Empty;
+        public string? Observaciones { get; set; }
 
 
         // Relaciones

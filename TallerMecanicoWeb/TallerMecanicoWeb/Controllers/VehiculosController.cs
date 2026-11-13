@@ -55,7 +55,19 @@ namespace TallerMecanicoWeb.Controllers
                 return View(vehiculo);
             }
 
-            // 2. Comprobar que se seleccionó un propietario
+            // 2. Comprobar si la patente ya existe
+            if (_vehiculoService.ExistePatente(vehiculo.Patente))
+            {
+                ModelState.AddModelError(
+                    "Patente",
+                    "Ya existe un vehículo registrado con esa patente."
+                );
+
+                CargarClientes();
+                return View(vehiculo);
+            }
+
+            // 3. Comprobar que se seleccionó un propietario
             if (!idCliente.HasValue)
             {
                 ModelState.AddModelError(
@@ -67,13 +79,13 @@ namespace TallerMecanicoWeb.Controllers
                 return View(vehiculo);
             }
 
-            // 3. Registrar el vehículo mediante el servicio
+            // 4. Registrar el vehículo mediante el servicio
             bool registrado = _vehiculoService.AgregarVehiculo(
                 vehiculo,
                 idCliente.Value
             );
 
-            // 4. Controlar si el registro falló
+            // 5. Controlar si el registro falló
             if (!registrado)
             {
                 ModelState.AddModelError(
@@ -85,9 +97,10 @@ namespace TallerMecanicoWeb.Controllers
                 return View(vehiculo);
             }
 
-            // 5. Volver al listado
+            // 6. Volver al listado
             return RedirectToAction(nameof(Index));
         }
+
 
         private void CargarClientes()
         {

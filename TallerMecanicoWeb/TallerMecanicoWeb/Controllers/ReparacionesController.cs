@@ -60,6 +60,31 @@ namespace TallerMecanicoWeb.Controllers
                 return View(reparacion);
             }
 
+            // PB12 - Validar la fecha de ingreso
+            if (reparacion.FechaIngreso == default(DateTime))
+            {
+                ModelState.AddModelError(
+                    nameof(Reparacion.FechaIngreso),
+                    "Debe ingresar una fecha de ingreso válida."
+                );
+
+                CargarListas();
+                return View(reparacion);
+            }
+
+            // PB12 - Validar el orden de las fechas
+            if (reparacion.FechaFinalizacion.HasValue &&
+                reparacion.FechaFinalizacion.Value < reparacion.FechaIngreso)
+            {
+                ModelState.AddModelError(
+                    nameof(Reparacion.FechaFinalizacion),
+                    "La fecha de finalización no puede ser anterior a la fecha de ingreso."
+                );
+
+                CargarListas();
+                return View(reparacion);
+            }
+
             if (!idVehiculo.HasValue)
             {
                 ModelState.AddModelError("idVehiculo", "Debe seleccionar un vehículo.");

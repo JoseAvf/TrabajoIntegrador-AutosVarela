@@ -19,7 +19,13 @@
                         <div class="row mb-3">
                             <div class="col-md-6">
                                 <label class="form-label fw-semibold">Vehículo</label>
-                                <select name="idVehiculo" asp-items="ViewBag.Vehiculos" class="form-select">
+                                <select name="idVehiculo"
+                                        id="idVehiculo"
+                                        asp-items="ViewBag.Vehiculos"
+                                        class="form-select"
+                                        required
+                                        data-val="true"
+                                        data-val-required="Debe seleccionar un vehículo.">
                                     <option value="">-- Seleccione un vehículo --</option>
                                 </select>
                                 <span class="text-danger">@Html.ValidationMessage("idVehiculo")</span>
@@ -27,7 +33,13 @@
 
                             <div class="col-md-6">
                                 <label class="form-label fw-semibold">Mecánico Asignado</label>
-                                <select name="idPersonal" asp-items="ViewBag.Personal" class="form-select">
+                                <select name="idPersonal"
+                                        id="idPersonal"
+                                        asp-items="ViewBag.Personal"
+                                        class="form-select"
+                                        required
+                                        data-val="true"
+                                        data-val-required="Debe seleccionar un mecánico responsable.">
                                     <option value="">-- Seleccione un mecánico --</option>
                                 </select>
                                 <span class="text-danger">@Html.ValidationMessage("idPersonal")</span>
@@ -49,7 +61,7 @@
 
                             <div class="col-md-4">
                                 <label asp-for="Costo" class="form-label fw-semibold">Costo Estimado ($)</label>
-                                <input asp-for="Costo" type="number" step="0.01" min="0" class="form-control" />
+                                <input asp-for="Costo" type="number" step="0.01" class="form-control" />
                                 <span asp-validation-for="Costo" class="text-danger"></span>
                             </div>
                         </div>

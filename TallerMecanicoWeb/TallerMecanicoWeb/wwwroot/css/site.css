@@ -272,3 +272,17 @@ main {
         min-height: auto;
     }
 }
+
+/* PB12 - Resaltar campos con errores de validación */
+
+.form-control.input-validation-error,
+.form-select.input-validation-error {
+    border-color: #dc3545;
+}
+
+    .form-control.input-validation-error:focus,
+    .form-select.input-validation-error:focus {
+        border-color: #dc3545;
+        box-shadow: 0 0 0 0.25rem rgba(220, 53, 69, 0.25);
+    }
+
