@@ -2,15 +2,15 @@
 @using TallerMecanicoWeb.Models
 
 @{
-    ViewData["Title"] = "Gestión de Reparaciones";
+    ViewData["Title"] = "Panel de Estados y Reparaciones";
     EstadoReparacion? estadoActual = ViewBag.EstadoSeleccionado;
 }
 
 <div class="container mt-4">
     <div class="d-flex justify-content-between align-items-center mb-3">
         <div>
-            <h2 class="mb-1">Órdenes de Reparación</h2>
-            <p class="text-muted mb-0">Consultá, registrá y actualizá el estado de los trabajos del taller.</p>
+            <h2 class="mb-1">Panel de Reparaciones y Estados</h2>
+            <p class="text-muted mb-0">Consultá el resumen por estado, filtrá con un clic y actualizá el avance de cada trabajo.</p>
         </div>
         <div class="d-flex gap-2">
             <a asp-controller="Home" asp-action="Index" class="btn btn-outline-secondary">Volver al Panel</a>
@@ -18,26 +18,76 @@
         </div>
     </div>
 
-    <form method="get" asp-action="Index" class="row g-2 align-items-center mb-4">
-        <div class="col-auto">
-            <label class="col-form-label fw-semibold">Filtrar por estado:</label>
+    <!-- CAMBIO 1 (PB11): Alerta de confirmación cuando se actualiza un estado -->
+    @if (TempData["MensajeExito"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <strong>¡Estado actualizado!</strong> @TempData["MensajeExito"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-        <div class="col-auto">
-            <select name="estado" class="form-select" onchange="this.form.submit()">
-                <option value="">Todos los estados</option>
-                @foreach (var est in Enum.GetValues<EstadoReparacion>())
-                {
-                    <option value="@est" selected="@(estadoActual == est)">@est</option>
-                }
-            </select>
+    }
+
+    <!-- CAMBIO 2 (PB11): Panel de 5 tarjetas interactivas con contadores por estado -->
+    <div class="row g-3 mb-4">
+        <div class="col-6 col-md">
+            <a asp-action="Index" class="text-decoration-none">
+                <div class="card text-center h-100 shadow-sm @(estadoActual == null ? "border-dark border-2" : "")">
+                    <div class="card-body py-3">
+                        <h6 class="text-muted mb-1">Todas</h6>
+                        <h3 class="fw-bold text-dark mb-0">@(ViewBag.Total ?? 0)</h3>
+                    </div>
+                </div>
+            </a>
         </div>
-        @if (estadoActual.HasValue)
-        {
-            <div class="col-auto">
-                <a asp-action="Index" class="btn btn-outline-secondary">Limpiar filtro</a>
-            </div>
-        }
-    </form>
+        <div class="col-6 col-md">
+            <a asp-action="Index" asp-route-estado="@EstadoReparacion.Pendiente" class="text-decoration-none">
+                <div class="card text-center h-100 shadow-sm @(estadoActual == EstadoReparacion.Pendiente ? "border-warning border-2" : "")">
+                    <div class="card-body py-3">
+                        <h6 class="text-warning text-dark mb-1">Pendientes</h6>
+                        <h3 class="fw-bold text-dark mb-0">@(ViewBag.Pendientes ?? 0)</h3>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-6 col-md">
+            <a asp-action="Index" asp-route-estado="@EstadoReparacion.EnReparacion" class="text-decoration-none">
+                <div class="card text-center h-100 shadow-sm @(estadoActual == EstadoReparacion.EnReparacion ? "border-primary border-2" : "")">
+                    <div class="card-body py-3">
+                        <h6 class="text-primary mb-1">En Reparación</h6>
+                        <h3 class="fw-bold text-primary mb-0">@(ViewBag.EnReparacion ?? 0)</h3>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-6 col-md">
+            <a asp-action="Index" asp-route-estado="@EstadoReparacion.Finalizada" class="text-decoration-none">
+                <div class="card text-center h-100 shadow-sm @(estadoActual == EstadoReparacion.Finalizada ? "border-success border-2" : "")">
+                    <div class="card-body py-3">
+                        <h6 class="text-success mb-1">Finalizadas</h6>
+                        <h3 class="fw-bold text-success mb-0">@(ViewBag.Finalizadas ?? 0)</h3>
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="col-6 col-md">
+            <a asp-action="Index" asp-route-estado="@EstadoReparacion.Cancelada" class="text-decoration-none">
+                <div class="card text-center h-100 shadow-sm @(estadoActual == EstadoReparacion.Cancelada ? "border-danger border-2" : "")">
+                    <div class="card-body py-3">
+                        <h6 class="text-danger mb-1">Canceladas</h6>
+                        <h3 class="fw-bold text-danger mb-0">@(ViewBag.Canceladas ?? 0)</h3>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    @if (estadoActual.HasValue)
+    {
+        <div class="d-flex justify-content-between align-items-center alert alert-secondary py-2 mb-3">
+            <span>Mostrando únicamente reparaciones en estado: <strong>@estadoActual</strong></span>
+            <a asp-action="Index" class="btn btn-sm btn-outline-dark">Ver todas</a>
+        </div>
+    }
 
     @if (Model == null || !Model.Any())
     {
@@ -55,11 +105,11 @@
                         <th>Vehículo</th>
                         <th>Cliente</th>
                         <th>Mecánico Asignado</th>
-                        <th>Ingreso</th>
+                        <th>Ingreso / Fin</th>
                         <th>Descripción / Diagnóstico</th>
                         <th>Costo</th>
-                        <th>Estado</th>
-                        <th>Cambiar Estado</th>
+                        <th>Estado Actual</th>
+                        <th>Actualizar Estado</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -97,7 +147,7 @@
                                 @if (item.FechaFinalizacion.HasValue)
                                 {
                                     <br />
-                                    <small class="text-success">Fin: @item.FechaFinalizacion.Value.ToString("dd/MM/yyyy")</small>
+                                    <small class="text-success fw-semibold">Fin: @item.FechaFinalizacion.Value.ToString("dd/MM/yyyy")</small>
                                 }
                             </td>
                             <td>
@@ -120,7 +170,7 @@
                                             <option value="@est" selected="@(item.Estado == est)">@est</option>
                                         }
                                     </select>
-                                    <button type="submit" class="btn btn-sm btn-outline-primary">Guardar</button>
+                                    <button type="submit" class="btn btn-sm btn-primary">Actualizar</button>
                                 </form>
                             </td>
                         </tr>
@@ -129,4 +179,4 @@
             </table>
         </div>
     }
-</div>
+</div> 
