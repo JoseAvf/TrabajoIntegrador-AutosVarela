@@ -30,7 +30,8 @@
     </div>
 }
 
-<table class="table table-striped">
+            <div class="table-responsive">
+                <table class="table table-striped" style="min-width: 650px;">
     <thead>
         <tr>
             <th>Nombre</th>
@@ -51,8 +52,10 @@
                 <td>@mecanico.Telefono</td>
             </tr>
         }
-    </tbody>
-</table>
+                    </tbody>
+                </table>
+            </div>
+</>
 
 @if (!Model.Any())
 {
